@@ -129,43 +129,75 @@ std::string statusCodeToString(BatteryStatusCode status) {
 }
 
 int main() {
-
     // Test cases with expected results
-    BatteryStatusCode status1 = printBatteryStatus(25, 40, 0.7);
-    assert(isBatteryOk(25, 40, 0.7) == true); // SOC and charge rate within range, temperature within range
+    float soc1 = 25, temp1 = 40, chargeRate1 = 0.7;
+    BatteryStatusCode status1 = validateBatterySystem(soc1, temp1, chargeRate1);
+    std::cout << "SOC: " << soc1 << ", Temp: " << temp1 << ", Charge Rate: " << chargeRate1
+              << " -> Status: " << statusCodeToString(status1) << std::endl;
+    assert(isBatteryOk(soc1, temp1, chargeRate1) == true); // SOC and charge rate within range, temperature within range
 
-    BatteryStatusCode status2 = printBatteryStatus(50, 85, 0);
-    assert(isBatteryOk(50, 85, 0) == false); // Temperature out of range
+    float soc2 = 50, temp2 = 85, chargeRate2 = 0;
+    BatteryStatusCode status2 = validateBatterySystem(soc2, temp2, chargeRate2);
+    std::cout << "SOC: " << soc2 << ", Temp: " << temp2 << ", Charge Rate: " << chargeRate2
+              << " -> Status: " << statusCodeToString(status2) << std::endl;
+    assert(isBatteryOk(soc2, temp2, chargeRate2) == false); // Temperature out of range
 
     // Additional test cases
-    BatteryStatusCode status3 = printBatteryStatus(22, 30, 0.5);   // Temperature within range, SOC within range, charge rate within range
-    assert(isBatteryOk(22, 30, 0.5) == true);
+    float soc3 = 22, temp3 = 30, chargeRate3 = 0.5;
+    BatteryStatusCode status3 = validateBatterySystem(soc3, temp3, chargeRate3);
+    std::cout << "SOC: " << soc3 << ", Temp: " << temp3 << ", Charge Rate: " << chargeRate3
+              << " -> Status: " << statusCodeToString(status3) << std::endl;
+    assert(isBatteryOk(soc3, temp3, chargeRate3) == true);
 
-    BatteryStatusCode status4 = printBatteryStatus(0, 20, 0.9);    // Temperature out of range, SOC within range, charge rate out of range
-    assert(isBatteryOk(0, 20, 0.9) == false);
+    float soc4 = 0, temp4 = 20, chargeRate4 = 0.9;
+    BatteryStatusCode status4 = validateBatterySystem(soc4, temp4, chargeRate4);
+    std::cout << "SOC: " << soc4 << ", Temp: " << temp4 << ", Charge Rate: " << chargeRate4
+              << " -> Status: " << statusCodeToString(status4) << std::endl;
+    assert(isBatteryOk(soc4, temp4, chargeRate4) == false);
 
-    BatteryStatusCode status6 = printBatteryStatus(35, 75, 0.85);  // Temperature within range, SOC within range, charge rate out of range
-    assert(isBatteryOk(35, 75, 0.85) == false);
+    float soc6 = 35, temp6 = 75, chargeRate6 = 0.85;
+    BatteryStatusCode status6 = validateBatterySystem(soc6, temp6, chargeRate6);
+    std::cout << "SOC: " << soc6 << ", Temp: " << temp6 << ", Charge Rate: " << chargeRate6
+              << " -> Status: " << statusCodeToString(status6) << std::endl;
+    assert(isBatteryOk(soc6, temp6, chargeRate6) == false);
 
     // Testing edge cases
-    BatteryStatusCode status7 = printBatteryStatus(20, 45, 0.8);    // Minimum SOC, maximum temperature within range, maximum charge rate within range
-    assert(isBatteryOk(20, 45, 0.8) == false);      // SOC just at threshold, temperature just at threshold, charge rate within range
+    float soc7 = 20, temp7 = 45, chargeRate7 = 0.8;
+    BatteryStatusCode status7 = validateBatterySystem(soc7, temp7, chargeRate7);
+    std::cout << "SOC: " << soc7 << ", Temp: " << temp7 << ", Charge Rate: " << chargeRate7
+              << " -> Status: " << statusCodeToString(status7) << std::endl;
+    assert(isBatteryOk(soc7, temp7, chargeRate7) == false); // SOC just at threshold, temperature just at threshold, charge rate within range
 
-    BatteryStatusCode status8 = printBatteryStatus(80, 45, 0.8);    // Maximum SOC, maximum temperature within range, maximum charge rate within range
-    assert(isBatteryOk(80, 45, 0.8) == false);      // SOC just at threshold, temperature within range, charge rate within range
+    float soc8 = 80, temp8 = 45, chargeRate8 = 0.8;
+    BatteryStatusCode status8 = validateBatterySystem(soc8, temp8, chargeRate8);
+    std::cout << "SOC: " << soc8 << ", Temp: " << temp8 << ", Charge Rate: " << chargeRate8
+              << " -> Status: " << statusCodeToString(status8) << std::endl;
+    assert(isBatteryOk(soc8, temp8, chargeRate8) == false); // SOC just at threshold, temperature within range, charge rate within range
 
-    BatteryStatusCode status9 = printBatteryStatus(19, 30, 0.79);   // SOC just below minimum, temperature within range, charge rate within range
-    assert(isBatteryOk(19, 30, 0.79) == false);     // SOC below threshold
+    float soc9 = 19, temp9 = 30, chargeRate9 = 0.79;
+    BatteryStatusCode status9 = validateBatterySystem(soc9, temp9, chargeRate9);
+    std::cout << "SOC: " << soc9 << ", Temp: " << temp9 << ", Charge Rate: " << chargeRate9
+              << " -> Status: " << statusCodeToString(status9) << std::endl;
+    assert(isBatteryOk(soc9, temp9, chargeRate9) == false); // SOC below threshold
 
-    BatteryStatusCode status10 = printBatteryStatus(21, 46, 0.81);  // SOC just above minimum, temperature just above maximum, charge rate just above maximum
-    assert(isBatteryOk(21, 46, 0.81) == false);     // SOC just above threshold, temperature out of range, charge rate out of range
+    float soc10 = 21, temp10 = 46, chargeRate10 = 0.81;
+    BatteryStatusCode status10 = validateBatterySystem(soc10, temp10, chargeRate10);
+    std::cout << "SOC: " << soc10 << ", Temp: " << temp10 << ", Charge Rate: " << chargeRate10
+              << " -> Status: " << statusCodeToString(status10) << std::endl;
+    assert(isBatteryOk(soc10, temp10, chargeRate10) == false); // SOC just above threshold, temperature out of range, charge rate out of range
 
     // Test cases with different combinations of tolerance thresholds
-    BatteryStatusCode status11 = printBatteryStatus(25, 42, 0.76);  // SOC and charge rate within range, temperature within warning tolerance
-    assert(isBatteryOk(25, 42, 0.76) == true);      // SOC and charge rate within range, temperature within warning tolerance
+    float soc11 = 25, temp11 = 42, chargeRate11 = 0.76;
+    BatteryStatusCode status11 = validateBatterySystem(soc11, temp11, chargeRate11);
+    std::cout << "SOC: " << soc11 << ", Temp: " << temp11 << ", Charge Rate: " << chargeRate11
+              << " -> Status: " << statusCodeToString(status11) << std::endl;
+    assert(isBatteryOk(soc11, temp11, chargeRate11) == true); // SOC and charge rate within range, temperature within warning tolerance
 
-    BatteryStatusCode status12 = printBatteryStatus(24.5, 44, 0.77); // SOC within warning tolerance, temperature within range, charge rate within range
-    assert(isBatteryOk(24.5, 44, 0.77) == false);    // SOC within warning tolerance, temperature within range, charge rate within range
+    float soc12 = 24.5, temp12 = 44, chargeRate12 = 0.77;
+    BatteryStatusCode status12 = validateBatterySystem(soc12, temp12, chargeRate12);
+    std::cout << "SOC: " << soc12 << ", Temp: " << temp12 << ", Charge Rate: " << chargeRate12
+              << " -> Status: " << statusCodeToString(status12) << std::endl;
+    assert(isBatteryOk(soc12, temp12, chargeRate12) == false); // SOC within warning tolerance, temperature within range, charge rate within range
 
     std::cout << "All test cases passed!" << std::endl;
     return 0;
