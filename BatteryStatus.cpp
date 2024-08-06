@@ -15,7 +15,3 @@ std::map<BatteryStatusCode, std::string> createStatusDescriptionMap() {
     return statusDescriptions;
 }
 
-std::string statusCodeToString(BatteryStatusCode status) {
-    auto statusDescriptions = createStatusDescriptionMap();
-    return statusDescriptions.at(status);
-}
