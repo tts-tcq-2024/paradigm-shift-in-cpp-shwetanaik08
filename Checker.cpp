@@ -34,4 +34,46 @@ int main() {
     BatteryStatusCode status6 = validateBatterySystem(soc6, temp6, chargeRate6);
     std::cout << "SOC: " << soc6 << ", Temp: " << temp6 << ", Charge Rate: " << chargeRate6
               << " -> Status: " << statusCodeToString(status6) << std::endl;
-    assert(isBatteryOk(soc6
+    assert(isBatteryOk(soc6, temp6, chargeRate6) == false);
+
+    // Testing edge cases
+    float soc7 = 20, temp7 = 45, chargeRate7 = 0.8;
+    BatteryStatusCode status7 = validateBatterySystem(soc7, temp7, chargeRate7);
+    std::cout << "SOC: " << soc7 << ", Temp: " << temp7 << ", Charge Rate: " << chargeRate7
+              << " -> Status: " << statusCodeToString(status7) << std::endl;
+    assert(isBatteryOk(soc7, temp7, chargeRate7) == false);
+
+    float soc8 = 80, temp8 = 45, chargeRate8 = 0.8;
+    BatteryStatusCode status8 = validateBatterySystem(soc8, temp8, chargeRate8);
+    std::cout << "SOC: " << soc8 << ", Temp: " << temp8 << ", Charge Rate: " << chargeRate8
+              << " -> Status: " << statusCodeToString(status8) << std::endl;
+    assert(isBatteryOk(soc8, temp8, chargeRate8) == false);
+
+    float soc9 = 19, temp9 = 30, chargeRate9 = 0.79;
+    BatteryStatusCode status9 = validateBatterySystem(soc9, temp9, chargeRate9);
+    std::cout << "SOC: " << soc9 << ", Temp: " << temp9 << ", Charge Rate: " << chargeRate9
+              << " -> Status: " << statusCodeToString(status9) << std::endl;
+    assert(isBatteryOk(soc9, temp9, chargeRate9) == false);
+
+    float soc10 = 21, temp10 = 46, chargeRate10 = 0.81;
+    BatteryStatusCode status10 = validateBatterySystem(soc10, temp10, chargeRate10);
+    std::cout << "SOC: " << soc10 << ", Temp: " << temp10 << ", Charge Rate: " << chargeRate10
+              << " -> Status: " << statusCodeToString(status10) << std::endl;
+    assert(isBatteryOk(soc10, temp10, chargeRate10) == false);
+
+    // Test cases with different combinations of tolerance thresholds
+    float soc11 = 25, temp11 = 42, chargeRate11 = 0.76;
+    BatteryStatusCode status11 = validateBatterySystem(soc11, temp11, chargeRate11);
+    std::cout << "SOC: " << soc11 << ", Temp: " << temp11 << ", Charge Rate: " << chargeRate11
+              << " -> Status: " << statusCodeToString(status11) << std::endl;
+    assert(isBatteryOk(soc11, temp11, chargeRate11) == true);
+
+    float soc12 = 24.5, temp12 = 44, chargeRate12 = 0.77;
+    BatteryStatusCode status12 = validateBatterySystem(soc12, temp12, chargeRate12);
+    std::cout << "SOC: " << soc12 << ", Temp: " << temp12 << ", Charge Rate: " << chargeRate12
+              << " -> Status: " << statusCodeToString(status12) << std::endl;
+    assert(isBatteryOk(soc12, temp12, chargeRate12) == false);
+
+    std::cout << "All test cases passed!" << std::endl;
+    return 0;
+}
